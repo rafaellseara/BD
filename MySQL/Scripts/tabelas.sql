@@ -6,7 +6,7 @@ CREATE DATABASE PISTA;
 -- Seleção da base de dados
 USE PISTA;
 
-CREATE TABLE Cliente(
+CREATE TABLE Cliente (
 	NIF INT PRIMARY KEY,
     Nome VARCHAR(64) NOT NULL,
     Email VARCHAR(45) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE Cliente(
     Rua VARCHAR(45) NOT NULL,
     Numero CHAR(5) NOT NULL,
 	CodPostal CHAR(12) NOT NULL,
-    Sexo ENUM('M', 'F') NOT NULL
+    Sexo ENUM('M', 'F', 'ND') NOT NULL
 );
 
 CREATE TABLE ClienteTelefone (
@@ -23,7 +23,7 @@ CREATE TABLE ClienteTelefone (
     FOREIGN KEY (Cliente) REFERENCES Cliente (NIF)
 );
 
-CREATE TABLE Suspeito(
+CREATE TABLE Suspeito (
 	ID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(64) NOT NULL,
     Descrição TEXT
