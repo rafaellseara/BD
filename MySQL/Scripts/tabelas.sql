@@ -12,14 +12,17 @@ CREATE TABLE Cliente (
     Email VARCHAR(45) NOT NULL,
     Tipo ENUM ('Singular', 'Coletivo') NOT NULL,
     Rua VARCHAR(45) NOT NULL,
+    Classificação DECIMAL(4,2),
+    Preço DECIMAL(7,2) NOT NULL,
     Numero CHAR(5) NOT NULL,
 	CodPostal CHAR(12) NOT NULL,
     Sexo ENUM('M', 'F', 'ND') NOT NULL
 );
 
 CREATE TABLE ClienteTelefone (
-	Telefone INT PRIMARY KEY NOT NULL,
-    Cliente INT NOT NULL,
+	Cliente INT NOT NULL,
+	Telefone VARCHAR(15) NOT NULL,
+    PRIMARY KEY (Cliente, Telefone),
     FOREIGN KEY (Cliente) REFERENCES Cliente (NIF)
 );
 
@@ -36,7 +39,7 @@ CREATE TABLE Caso (
     DataAbertura DATETIME NOT NULL,
     DataFecho DATETIME,
     Preço DECIMAL(7,2) NOT NULL,
-    Classificação DECIMAL(4,2) NOT NULL,
+    Classificação DECIMAL(4,2),
     DataEscritaRelatório DATETIME,
     DescriçãoRelatório TEXT,
     Cliente INT NOT NULL,
@@ -55,8 +58,9 @@ CREATE TABLE Detetive (
 );
 
 CREATE TABLE DetetiveTelefone (
-	Telefone INT PRIMARY KEY NOT NULL,
+	Telefone VARCHAR(15) NOT NULL,
     Detetive INT NOT NULL,
+    PRIMARY KEY (Telefone, Detetive),
     FOREIGN KEY (Detetive) REFERENCES Detetive (ID)
 );
 
@@ -64,6 +68,7 @@ CREATE TABLE CasoDetetive (
 	IdDetetive INT NOT NULL,
     IdCaso INT NOT NULL,
     Responsável TINYINT NOT NULL,
+    PRIMARY KEY (IdDetetive, IdCaso),
     FOREIGN KEY (IdDetetive) REFERENCES Detetive (ID),
     FOREIGN KEY (IdCaso) REFERENCES Caso (ID)
 );
@@ -79,4 +84,3 @@ CREATE TABLE Prova (
     FOREIGN KEY (Caso) REFERENCES Caso (ID),
     FOREIGN KEY (Detetive) REFERENCES Detetive (ID)
 );
-    

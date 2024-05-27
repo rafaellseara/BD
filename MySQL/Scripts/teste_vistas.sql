@@ -9,39 +9,48 @@ SELECT * FROM verSuspeitos;
 
 SELECT * FROM verClientes;
 
-SELECT * FROM verProvasPorCasos;
+SELECT * FROM verProvas;
 
-SELECT * FROM ClientesPorCaso;
+-- Teste para o procedimento dados_cliente_do_caso
+CALL dados_cliente_do_caso(1);
+-- Espera-se que retorne detalhes do cliente associado ao caso com ID 1.
 
-SELECT * FROM ProvasPorDetetive;
+-- Teste para o procedimento dados_prova_do_caso
+CALL dados_prova_do_caso(1);
+-- Espera-se que retorne detalhes da prova associada ao caso com ID 1.
 
-SELECT * FROM SuspeitosPorDetetive;
+-- Teste para o procedimento dados_suspeito_do_caso
+CALL dados_suspeito_do_caso(1);
+-- Espera-se que retorne detalhes do suspeito associado ao caso com ID 1.
 
-SELECT * FROM CasosPorDetetive;
+-- Teste para o procedimento casos_do_detetive
+CALL casos_do_detetive(1);
+-- Espera-se que retorne todos os casos associados ao detetive com ID 1.
 
-SELECT * FROM RelatoriosPorDetetive;
+-- Teste para o procedimento relatorios_do_detetive
+CALL relatorios_do_detetive(1);
+-- Espera-se que retorne descrições dos relatórios de casos fechados associados ao detetive com ID 1.
 
-SELECT * FROM CasosPorCliente;
+-- Teste para o procedimento casos_do_cliente
+CALL casos_do_cliente(1);
+-- Espera-se que retorne todos os casos associados ao cliente com NIF 1.
 
-SELECT * FROM DetetivesPorEstadoCasos;
+-- Teste para o procedimento detetives_estado_casos
+CALL detetives_estado_casos(5, 'Ativo');
+-- Espera-se que retorne todos os detetives que têm 5 ou mais casos e estão ativos.
 
-SELECT * FROM ClientesPorClassificacaoMedia;
+-- Teste para o procedimento casos_classificacao
+CALL casos_classificacao();
+-- Espera-se que retorne todos os casos ordenados por classificação.
 
-SELECT * FROM ClientesQueMaisGastam;
+-- Teste para o procedimento detetives_classificacao
+CALL detetives_classificacao();
+-- Espera-se que retorne todos os detetives ordenados por classificação.
 
-SELECT * FROM CasosRegistadosPorIntervalo;
+-- Teste para o procedimento casos_data_a_data
+CALL casos_data_a_data('2023-01-01', '2023-12-31');
+-- Espera-se que retorne a contagem de casos abertos entre 1 de janeiro de 2023 e 31 de dezembro de 2023.
 
-SELECT * FROM CasosFechadosPorIntervalo;
-
-SELECT * FROM CasosAbertosPorIntervalo;
-
-SELECT * FROM ClassificacaoDetetives;
-
-SELECT * FROM ProvasPorDetetive 
-	WHERE DetetiveNome = 'Detetive A';
-
-SELECT * FROM SuspeitosPorDetetive 
-	WHERE DetetiveNome = 'Detetive A';
-    
-SELECT * FROM CasosPorCliente
-	WHERE ClienteNome = "Maria Oliveira";
+-- Teste para o procedimento casos_fechados_data_a_data
+CALL casos_fechados_data_a_data('2023-01-01', '2023-12-31');
+-- Espera-se que retorne a contagem de casos fechados entre 1 de janeiro de 2023 e 31 de dezembro de 2023.
