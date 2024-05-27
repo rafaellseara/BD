@@ -65,7 +65,7 @@ SELECT
     Tipo, 
     Rua, 
     Classificação, 
-    Preço, 
+    Gasto, 
     Numero, 
     CodPostal, 
     Sexo

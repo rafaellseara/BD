@@ -13,7 +13,7 @@ CREATE TABLE Cliente (
     Tipo ENUM ('Singular', 'Coletivo') NOT NULL,
     Rua VARCHAR(45) NOT NULL,
     Classificação DECIMAL(4,2),
-    Preço DECIMAL(7,2) NOT NULL,
+    Gasto DECIMAL(7,2) NOT NULL,
     Numero CHAR(5) NOT NULL,
 	CodPostal CHAR(12) NOT NULL,
     Sexo ENUM('M', 'F', 'ND') NOT NULL

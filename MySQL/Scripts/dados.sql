@@ -15,7 +15,7 @@ DELETE FROM ClienteTelefone;
 DELETE FROM Cliente;
 
 -- Povoar tabela Cliente
-INSERT INTO Cliente (NIF, Nome, Email, Tipo, Rua, Classificação, Preço, Numero, CodPostal, Sexo) VALUES
+INSERT INTO Cliente (NIF, Nome, Email, Tipo, Rua, Classificação, Gasto, Numero, CodPostal, Sexo) VALUES
 (1, 'Carlos Silva', 'carlos.silva@mail.com', 'Singular', 'Rua A', 0, 0, '123', '1234-567', 'M'),
 (2, 'Ana Souza', 'ana.souza@mail.com', 'Singular', 'Avenida B', 0, 0, '456', '2345-678', 'F'),
 (3, 'João Pereira', 'joao.pereira@mail.com', 'Singular', 'Travessa C', 0, 0, '789', '3456-789', 'M'),
