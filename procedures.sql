@@ -2,7 +2,7 @@ DELIMITER $$
 CREATE PROCEDURE dados_cliente_do_caso(IN IDdocaso INT)
 BEGIN
 SELECT 
-	*
+	cliente.*
 FROM 
 	cliente
     INNER JOIN caso ON cliente.NIF = caso.Cliente
@@ -15,7 +15,7 @@ DELIMITER $$
 CREATE PROCEDURE dados_prova_do_caso(IN IDdocaso INT)
 BEGIN
 SELECT 
-	*
+	prova.*
 FROM 
 	prova
     INNER JOIN caso ON prova.ID = caso.ID
@@ -27,13 +27,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE dados_suspeito_do_caso(IN IDdocaso INT)
 BEGIN
-SELECT 
-	*
-FROM 
-	prova
-    INNER JOIN suspeito ON prova.ID = suspeito.ID
-WHERE
-	caso.ID = IDdocaso;
+    SELECT 
+        suspeito.*
+    FROM 
+        suspeito
+        INNER JOIN caso ON suspeito.ID = caso.Suspeito
+    WHERE
+        caso.ID = IDdocaso;
 END $$
 DELIMITER ;
 
@@ -41,7 +41,7 @@ DELIMITER $$
 CREATE PROCEDURE casos_do_detetive(IN IDdetetive INT)
 BEGIN
 SELECT 
-	*
+	caso.*
 FROM 
 	caso
     INNER JOIN casodetetive ON caso.ID = casodetetive.IdCaso
@@ -67,7 +67,7 @@ DELIMITER $$
 CREATE PROCEDURE casos_do_cliente(IN NIFcliente INT)
 BEGIN
 SELECT 
-	*
+	caso.*
 FROM 
 	caso
     INNER JOIN cliente ON caso.Cliente = cliente.NIF
@@ -167,7 +167,8 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE adicionar_cliente(IN NIF INT ,
+CREATE PROCEDURE adicionar_cliente(
+	IN NIF INT ,
     IN Nome VARCHAR(64),
     IN Email VARCHAR(45),
     IN Tipo ENUM ('Singular', 'Coletivo'),
@@ -178,21 +179,42 @@ CREATE PROCEDURE adicionar_cliente(IN NIF INT ,
 	IN CodPostal CHAR(12),
     IN Sexo ENUM('M', 'F', 'ND'))
 BEGIN
-INSERT INTO cliente VALUES (Nome,Email,Tipo,Rua,Classificação,Gasto,Numero,CodPostal,Sexo);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+	START TRANSACTION;
+		INSERT INTO cliente VALUES (NIF,Nome,Email,Tipo,Rua,Classificação,Gasto,Numero,CodPostal,Sexo);
+	COMMIT;
 END $$
 DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE adicionar_cliente_telefone(IN Cliente INT,IN Telefone VARCHAR(15))
 BEGIN
-INSERT INTO clientetelefone VALUES (Cliente,Telefone);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+	START TRANSACTION;
+		INSERT INTO clientetelefone VALUES (Cliente,Telefone);
+	COMMIT;
 END $$
 DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE adicionar_suspeito(IN Nome VARCHAR(64),IN Descrição TEXT)
 BEGIN
-INSERT INTO suspeito(Nome,Descrição) VALUES (Nome,Descrição);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO suspeito(Nome,Descrição) VALUES (Nome,Descrição);
+	COMMIT;   
 END $$
 DELIMITER ;
 
@@ -209,7 +231,14 @@ CREATE PROCEDURE adicionar_caso(
     IN Cliente INT,
     IN Suspeito INT)
 BEGIN
-INSERT INTO suspeito(Estado,DescriçãoCaso,DataAbertura,DataFecho,Preço,Classificação,DataEscritaRelatório,DescriçãoRelatório,Cliente,Suspeito) VALUES (Estado,DescriçãoCaso,DataAbertura,DataFecho,Preço,Classificação,DataEscritaRelatório,DescriçãoRelatório,Cliente,Suspeito);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO caso(Estado,DescriçãoCaso,DataAbertura,DataFecho,Preço,Classificação,DataEscritaRelatório,DescriçãoRelatório,Cliente,Suspeito) VALUES (Estado,DescriçãoCaso,DataAbertura,DataFecho,Preço,Classificação,DataEscritaRelatório,DescriçãoRelatório,Cliente,Suspeito);
+	COMMIT;
 END $$
 DELIMITER ;
 
@@ -220,7 +249,14 @@ CREATE PROCEDURE adicionar_detetive(IN Nome VARCHAR(64),
     IN Classificação DECIMAL(4,2),
     IN Estado ENUM('Ativo', 'Inativo'))
 BEGIN
-INSERT INTO suspeito(Nome,Email,NumeroCasos,Classificação,Estado) VALUES (Nome,Email,NumeroCasos,Classificação,Estado);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO detetive(Nome,Email,NumeroCasos,Classificação,Estado) VALUES (Nome,Email,NumeroCasos,Classificação,Estado);
+    COMMIT;    
 END $$
 DELIMITER ;
 
@@ -228,7 +264,14 @@ DELIMITER $$
 CREATE PROCEDURE adicionar_detetive_telefone(IN Telefone VARCHAR(15),
     IN Detetive INT)
 BEGIN
-INSERT INTO suspeito(Telefone,Detetive) VALUES (Telefone,Detetive);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO detetivetelefone(Telefone,Detetive) VALUES (Telefone,Detetive);
+	COMMIT;  
 END $$
 DELIMITER ;
 
@@ -237,16 +280,14 @@ CREATE PROCEDURE adicionar_detetive_caso(IN IdDetetive INT,
     IN IdCaso INT,
     IN Responsável TINYINT)
 BEGIN
-INSERT INTO suspeito(IdDetetive,IdCaso,Responsável) VALUES (IdDetetive,IdCaso,Responsável);
-END $$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE adicionar_detetive_caso(IN IdDetetive INT,
-    IN IdCaso INT,
-    IN Responsável TINYINT)
-BEGIN
-INSERT INTO suspeito(IdDetetive,IdCaso,Responsável) VALUES (IdDetetive,IdCaso,Responsável);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO casodetetive(IdDetetive,IdCaso,Responsável) VALUES (IdDetetive,IdCaso,Responsável);
+	COMMIT;    
 END $$
 DELIMITER ;
 
@@ -258,9 +299,13 @@ CREATE PROCEDURE adicionar_prova(
     IN Caso INT,
     IN Detetive INT)
 BEGIN
-INSERT INTO suspeito(Descrição,DataDescoberta,Suspeito,Caso,Detetive) VALUES (Descrição,DataDescoberta,Suspeito,Caso,Detetive);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO prova(Descrição,DataDescoberta,Suspeito,Caso,Detetive) VALUES (Descrição,DataDescoberta,Suspeito,Caso,Detetive);
+	COMMIT; 
 END $$
 DELIMITER ;
-
-
-
