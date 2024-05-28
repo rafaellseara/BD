@@ -89,6 +89,16 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
+CREATE PROCEDURE fechar_caso(IN IDdocaso INT, IN classificacao DECIMAL(4,2))
+BEGIN
+UPDATE Caso
+    SET Estado = 2,
+        Classificação = classificacao
+    WHERE ID = caso_id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
 CREATE PROCEDURE casos_classificacao()
 BEGIN
 SELECT 
