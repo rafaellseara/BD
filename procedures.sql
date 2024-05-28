@@ -94,7 +94,7 @@ BEGIN
 UPDATE Caso
     SET Estado = 2,
         Classificação = classificacao
-    WHERE ID = caso_id;
+    WHERE ID = IDdocaso;
 END $$
 DELIMITER ;
 
