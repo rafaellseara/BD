@@ -33,8 +33,6 @@ GRANT SELECT ON PISTA.verProvas 	TO 'admin'@'localhost';
 
 
 
-
-
 CREATE USER 'detetive'@'localhost' IDENTIFIED BY 'senha';
 
 GRANT SELECT ON PISTA.Cliente 	TO 'detetive'@'localhost';
@@ -54,10 +52,11 @@ GRANT EXECUTE ON PROCEDURE PISTA.clientes_classificacao 	TO 'detetive'@'localhos
 
 GRANT EXECUTE ON PROCEDURE PISTA.adicionar_suspeito 			TO 'detetive'@'localhost';
 GRANT EXECUTE ON PROCEDURE PISTA.adicionar_caso 				TO 'detetive'@'localhost';
-GRANT EXECUTE ON PROCEDURE PISTA.adicionar_detetive_telefone 	TO 'detetive'@'localhost';
 GRANT EXECUTE ON PROCEDURE PISTA.adicionar_prova 				TO 'detetive'@'localhost';
 
 GRANT SELECT ON PISTA.verCasos 		TO 'detetive'@'localhost';
 GRANT SELECT ON PISTA.verClientes 	TO 'detetive'@'localhost';
 GRANT SELECT ON PISTA.verSuspeitos 	TO 'detetive'@'localhost';
 GRANT SELECT ON PISTA.verProvas 	TO 'detetive'@'localhost';
+
+
